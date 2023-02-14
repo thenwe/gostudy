@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="static/jquery.min.js">
+    </script>
+    <script>
+        var wsUri ="ws://127.0.0.1:12233/websocket";
+        let str=''
+        let sum=0
+        let arrayList=[]
+        websocket = new WebSocket(wsUri);
+        websocket.onclose = function(evt) {
+            console.log("关闭连接")
+        };
+        websocket.onopen = function(evt) {
+            console.log(evt.data)
+
+        };
+        websocket.onerror = function(evt) {
+            console.log("")
+        };
+        websocket.onmessage = function(evt) {
+            sum++
+            console.log(sum)
+            arrayList.push(evt.data)
+            if(sum>=11){
+                //$("#websocket").html('')
+
+                arrayList=arrayList.slice(1,arrayList.length)//达到20条消息，清除一条最久的消息
+            }
+            for (i=0;i<arrayList.length;i++){
+                str+=arrayList[i]+'<br/>'
+            }
+            $("#websocket").html(str)
+            //console.log(evt.data)
+            str=''
+        };
+        function getWebsocket() {
+            websocket.send($("#view").val());
+        }
+        function getGin() {
+            let str=$("#view").val()
+            $.ajax({
+                url:"/user/service",
+                type:"get",
+                data:{"data":str},
+                dataTye:"json",
+                success:function(data){
+                    alert(data.message)
+                },
+                error:function(){
+                    alert("错误")
+                }
+            })
+        }
+    </script>
+</head>
+<body style="text-align:center">
+<h1>聊天界面</h1>
+
+<input type="text" id="view" style="width: 100px">
+<button onclick="getWebsocket()">点我测试</button>
+<p id="websocket"></p>
+</body>
+</html>

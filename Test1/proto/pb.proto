@@ -1,0 +1,19 @@
+//指定当前protoc的语法版本
+syntax="proto3";
+//option go_package="path;name";path 标识生成的go文件的存放地址，会自动生成目录
+//name 标识
+option go_package="../service";
+//指定文件生成出来的package
+package service;
+//消息 传输的对象
+message User {
+  string username=1;
+  int32 age=2;
+}
+message Addr{
+  string city=1;
+  string house=2;
+}
+service SayHello {
+  rpc SayHello(User) returns (Addr){};
+};

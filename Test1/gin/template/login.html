@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="static/jquery.min.js"></script>
+<script>
+    function toSocket(){
+        $.ajax({
+            url:"/hello",
+            type:"GET",
+            dataType:"json",
+            success:function(data){
+                console.log(data.message)
+            },
+            error:function(data){
+                console.log(data)
+            }
+
+        })
+    }
+</script>
+<body style="text-align:center">
+<h1>请登录</h1>
+账号<input type="text" style=" border-radius:10px"><br/>
+密码<input type="text" style=" border-radius:10px"><br/>
+<button style=" border-radius:10px" onclick="toSocket()">登录</button>
+</body>
+</html>
