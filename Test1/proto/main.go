@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"net"
 )
 
@@ -19,9 +20,11 @@ func (s server) SayHello(ctx context.Context, u *service.User) (*service.Addr, e
 }
 
 func main() {
+	creds, _ := credentials.NewServerTLSFromFile("D:\\Go_Study\\GoPath\\src\\Test1\\protohello\\test.pem",
+		"D:\\Go_Study\\GoPath\\src\\Test1\\protohello\\test.key")
 	listen, _ := net.Listen("tcp", ":9090")
 	//创建服务
-	grpcServe := grpc.NewServer()
+	grpcServe := grpc.NewServer(grpc.Creds(creds))
 	//注册服务
 	service.RegisterSayHelloServer(grpcServe, &server{})
 	//启动服务

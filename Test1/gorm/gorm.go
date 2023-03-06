@@ -13,7 +13,7 @@ type student struct {
 }
 
 var url = "root:236332@tcp(162.14.64.254:3306)/first_test?charset=utf8mb4&loc=Local"
-var db, err = gorm.Open(mysql.Open(url), &gorm.Config{})
+var db1, err = gorm.Open(mysql.Open(url), &gorm.Config{})
 
 func createMethod(tx gorm.DB) {
 
@@ -36,9 +36,9 @@ func main() {
 	}
 	fmt.Println("连接成功")
 
-	db.Debug().Where("name = ?", stu.Name).Find(&stuList1) //SELECT * FROM `students` WHERE name = '张三'
+	db1.Debug().Where("name = ?", stu.Name).Find(&stuList1) //SELECT * FROM `students` WHERE name = '张三'
 
-	db.Transaction(func(tx *gorm.DB) error {
+	db1.Transaction(func(tx *gorm.DB) error {
 		tx.Debug().Create([]student{{"Bruce", "123215", "五年级五班"}})
 		//创建数据
 		if len(stuList1) < 1 {
